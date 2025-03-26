@@ -6,10 +6,10 @@ describe('My Login application', () => {
     it('should login with valid credentials', async () => {
         await LoginPage.open()
 
-        await LoginPage.login('tomsmith', 'SuperSecretPassword!')
+        await LoginPage.login('standard_user', 'secret_sauce')
         await expect(SecurePage.flashAlert).toBeExisting()
         await expect(SecurePage.flashAlert).toHaveText(
-            expect.stringContaining('You logged into a secure area!'))
+            expect.stringContaining('Swag Labs'))
     })
 })
 
