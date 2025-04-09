@@ -37,7 +37,22 @@ class LoginPage extends Page {
         return $('.error-message-container')
     }
 
-    
+    get allItemslink () {
+        return $('a[data-test="inventory-sidebar-link"]')
+    }
+
+    get shoppingCartlink () {
+        return $('.shopping_cart_link')
+    }
+
+    get yourcartHeader () {
+        return $('//span[@class="title"][contains(text(), "Your Cart")]')
+    }
+
+    // get checkOutBtn () {
+    //     return $('//span[@class="title"][contains(text(), "Your Cart")]')
+    // }
+
 
     async login (username, password) {
         await this.inputUsername.setValue(username);
@@ -45,15 +60,31 @@ class LoginPage extends Page {
         await this.btnSubmit.click();
     }
 
-    async positiveLoginandOut (username, password) {
+    async Cartbtn() {
+        await this.shoppingCartlink.click();
+        await browser.pause(1000)
+        await expect(this.yourcartHeader).toExist();
+        await browser.pause(4000);
+    }
+
+    // async hamburgerMenu() {
+    //     await this.hamburgerButton.click();
+    //     await browser.pause(400);
+    //     await this.allItemslink.click();
+    //     await browser.pause(4000);
+    // }
+
+    async postiveLoginandOut (username, password) {
         await this.login(username, password);
         await expect(this.productsHeader).toExist();
-        // await this.hamburgerButton.click();
+        await this.Cartbtn();
+        //await this.hamburgerMenu();
         // await this.logoutButton.click();
         // await expect(this.inputUsername).toExist();
 
 
     }
+
 
     open () {
         return super.open('');
