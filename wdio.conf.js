@@ -51,24 +51,13 @@ export const config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        maxInstances: 1,
         browserName: 'chrome',
         'goog:chromeOptions': {
-            prefs: {
-                'credentials_enable_service': false,
-                'profile.password_manager_enabled': false
-            },
             args: [
-                '--disable-notifications',
-                '--disable-infobars',
-                '--disable-extensions',
-                //'--incognito',
-                '--no-default-browser-check',
-                '--disable-save-password-bubble'
+                '--disable-notifications'
             ]
         }
     }],
-
 
     //
     // ===================

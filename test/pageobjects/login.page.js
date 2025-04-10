@@ -6,6 +6,7 @@ import Page from './page.js';
  * sub page containing specific selectors and methods for a specific page
  */
 class LoginPage extends Page {
+
     /**
      * define selectors using getter methods
      */
@@ -28,7 +29,7 @@ class LoginPage extends Page {
     get hamburgerButton () {
         return $('#react-burger-menu-btn')
     }
-    
+
     get logoutButton () {
         return $('#logout_sidebar_link')
     }
@@ -46,12 +47,40 @@ class LoginPage extends Page {
     }
 
     get yourcartHeader () {
-        return $('//span[@class="title"][contains(text(), "Your Cart")]')
+        const selector = '//span[@class="title"][contains(text(), "Your Cart")]'
+        return $(selector)
     }
 
-    // get checkOutBtn () {
-    //     return $('//span[@class="title"][contains(text(), "Your Cart")]')
-    // }
+    get checkOutBtn () {
+        return $('.btn.btn_action.btn_medium.checkout_button')
+    }
+
+    get cancelBtn () {
+        return $('[data-test="cancel"]')
+    }
+
+    get chkoutinfoHeader () {
+        const selector = '//span[@class="title"][contains(text(), "Checkout: Your Information")]'
+        return $(selector)
+    }
+
+    get contshping () {
+        return $('.btn.btn_secondary.back.btn_medium')
+    }
+
+    get swglbsLogo () {
+        return $('.app_logo')
+    }
+
+    get aboutLInk () {
+        return $('a[data-test="about-sidebar-link"]')
+    }
+
+    get rstAppStlink () {
+        return $('a[data-test="reset-sidebar-link"]')
+    }
+
+    //browser.dismissAlert()
 
 
     async login (username, password) {
@@ -62,25 +91,39 @@ class LoginPage extends Page {
 
     async Cartbtn() {
         await this.shoppingCartlink.click();
-        await browser.pause(1000)
         await expect(this.yourcartHeader).toExist();
-        await browser.pause(4000);
+        await this.checkOutBtn.click();
+        await expect(this.chkoutinfoHeader).toExist();
+        await this.cancelBtn.click();
+        await expect(this.yourcartHeader).toExist();
+        await this.contshping.click();
+        await expect(this.productsHeader).toExist();
+        await this.shoppingCartlink.click();
+        await expect(this.yourcartHeader).toExist();
+        await this.shoppingCartlink.click();
+        await this.swglbsLogo.click();
     }
 
-    // async hamburgerMenu() {
-    //     await this.hamburgerButton.click();
-    //     await browser.pause(400);
-    //     await this.allItemslink.click();
-    //     await browser.pause(4000);
-    // }
+    async hamburgerMenu() {
+        await this.hamburgerButton.click();
+        await this.allItemslink.click();
+        await expect(this.productsHeader).toExist();
+        await this.hamburgerButton.click();
+        await this.aboutLInk.click();
+        await browser.url('https://www.saucedemo.com/inventory.html');
+        await expect(this.productsHeader).toExist();
+        await this.hamburgerButton.click();
+        await this.rstAppStlink.click();
+        await expect(this.rstAppStlink).toBeClickable()
+        await this.logoutButton.click();
+    }
 
     async postiveLoginandOut (username, password) {
         await this.login(username, password);
         await expect(this.productsHeader).toExist();
         await this.Cartbtn();
-        //await this.hamburgerMenu();
-        // await this.logoutButton.click();
-        // await expect(this.inputUsername).toExist();
+        await this.hamburgerMenu();
+        await expect(this.inputUsername).toExist();
 
 
     }
